@@ -4,6 +4,7 @@ const {registerRoute, loginRoute , detailsRoute} = require('./routes') ;
 const bodyParser = require('body-parser') ;
 const session = require('cookie-session') ;
 const cookieParser = require('cookie-parser');
+const cors = require('cors')
 
 app.use(session({
     secret: process.env.SECRET_KEY ,
@@ -26,6 +27,6 @@ app.get('/logout' , (req , res)=>{
     }
     
 })
-
+app.use(cors(['http://localhost:3000']))
 app.use('/', detailsRoute) ;
 module.exports =  app  ;

@@ -2,10 +2,11 @@ const {Users} = require('../db')
 const md5  = require('md5') ;
 
 module.exports =  async (req, res , next)=>{
-    
+    console.log('sdf')
     try{
         const session =  req.session
         const {username , password}  =  req.body;
+        console.log(username, password)
         const user = await Users.findOne({username});
 
         if(!user || md5(password) !== user.hashedPasswd)
