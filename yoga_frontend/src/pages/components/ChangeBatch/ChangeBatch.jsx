@@ -1,33 +1,39 @@
 import axios from 'axios'
-import React, {useRef, useState} from 'react'
+import React, {useContext, useEffect, useRef, useState} from 'react'
 import { useMutation } from 'react-query'
+import { MessageContext } from '../../../components/MessageStack/MessageStack'
 import styles from './ChangeBatch.module.scss'
 
 
 const ChangeBatch = (props) => {
+    const {addError , addSuccess} = useContext(MessageContext)
     const [checked ,setChecked] = useState(false)
-    const {batch, setBatch} = props
-    const prevBatch = useRef(props.batch)
+    console.log(props.subscription)
+    const [batch, setBatch] = useState(props.subscription?.batch)
     const {mutate} = useMutation((body)=>{
         return axios.put(`/changeBatch/${props.subscription._id}`, body, {withCredentials:true})
     })
 
-
+   useEffect(() => {
+     setBatch(props.subscription?.batch)
+   
+   }, [props.subscription?.batch])
+   
     function handleChangeBatch(){
         const body = {
             batch
         }
 
         mutate(body, {
-            onError: ()=>{props.setBatch(prevBatch.current); console.log('error')},
-            onSuccess: ()=>{props.setModal(false); prevBatch.current=batch; props.refetchData()} 
+            onError: ()=>{ addError('Failed to Change Branch')},
+            onSuccess: ()=>{props.setModal(false); props.setBatch(batch); addSuccess('Changed Batch Successfully') ;props.refetchData()} 
         })
     }
   return (
     <div className={styles.ModelEnrollBox}>
             
         <div className={styles.ModelEnrollImageBox}>
-            <img className={styles.ModelEnrollImage} src={require('./chnageBatch.png')} alt="img"/>
+            <img className={styles.ModelEnrollImage} src={require('./changeBatch.png')} alt="img"/>
         </div>
         
         <div className={styles.ModelEnrollMonth}>

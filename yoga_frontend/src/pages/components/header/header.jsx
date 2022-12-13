@@ -11,6 +11,7 @@ function Header({username}) {
   })
 
   function handleLogout(){
+    console.log("done")
     logout(null,{
       onError: console.log("unable to logout"),
       onSuccess: navigate('/login')

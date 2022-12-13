@@ -1,8 +1,10 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { useMutation } from 'react-query'
+import { MessageContext } from '../../../components/MessageStack/MessageStack'
 import styles from './PayNow.module.scss'
 const PayNow = (props) => {
+    const {addError , addSuccess} = useContext(MessageContext)
     const [checked ,setChecked] = useState(false)
     const {mutate} = useMutation((body)=>{
         return axios.post('/pay', body, {withCredentials:true})
@@ -14,8 +16,8 @@ const PayNow = (props) => {
         }
 
         mutate(body, {
-            onError: console.log("payment failed"),
-            onSuccess: ()=>{props.setModal(false); props.setPayment(true); props.refetchData()} 
+            onError: addError("payment failed"),
+            onSuccess: ()=>{props.setModal(false); props.setPayment(true);addSuccess("Payment Successfull!") ;props.refetchData()} 
         })
     }
   return (

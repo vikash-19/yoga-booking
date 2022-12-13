@@ -2,9 +2,39 @@ const {Users , Subscriptions , Payments} =  require('../db') ;
 const moment  = require('moment') ;
 
 
+const  isPrevPaymentDue = async (username)=>{
+        
+    const currMonthStartDate =  moment().date(1) ;
+        const prevSubscriptions =  await Subscriptions.find({
+            username , 
+            date:{$lt:currMonthStartDate},
+
+        })
+
+
+        if(prevSubscriptions.length == 0 ){
+            return false
+        }
+        else{
+            prevSubscriptions.sort({date : -1}) ;
+            const prevSubscription = prevSubscriptions[prevSubscriptions.length - 1 ] ;
+            const sid =  prevSubscription._id ;
+            const payment  = await Payments.findOne({sid});
+            if(!payment){
+                return true;
+            }
+            else{
+                return false ;
+            }
+
+        }
+}
+
+
 const getDetails = async (req , res)=>{
     try{
         const username =  req.session.username ;
+        const prevPaymentDue = isPrevPaymentDue(username) 
         const user = await Users.findOne({username}) ;
         
         const currMonthStartDate =  moment().date(1) ;
@@ -21,13 +51,16 @@ const getDetails = async (req , res)=>{
         }
 
 
+        
+
         const details = {
             firstName : user.firstName,
             lastName : user.lastName,
             dateOfBirth : user.dateOfBirth,
             currSubscription,
             payment,
-            username
+            username,
+            prevPaymentDue : await prevPaymentDue
         }
         res.json(details) ;
 

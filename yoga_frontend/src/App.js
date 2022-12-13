@@ -1,7 +1,7 @@
-import logo from './logo.svg';
 import './App.css';
 import React, { useEffect } from 'react'
 import { QueryClient, QueryClientProvider, useQuery } from 'react-query'
+import MessageStack from './components/MessageStack/MessageStack';
 import {
   BrowserRouter,
   Route,
@@ -20,11 +20,13 @@ function App() {
   return (
     <BrowserRouter>
     <QueryClientProvider client={client}>
-      <Routes>
-        <Route path = "/" element = {<Home/>} />
-        <Route path = "/login" element = {<Login/>} />
-        <Route path = "/register" element = {<Register/>} />
-      </Routes>
+      <MessageStack>
+        <Routes>
+          <Route path = "/" element = {<Home/>} />
+          <Route path = "/login" element = {<Login/>} />
+          <Route path = "/register" element = {<Register/>} />
+        </Routes>
+      </MessageStack>
       </QueryClientProvider> 
     </BrowserRouter>
   );

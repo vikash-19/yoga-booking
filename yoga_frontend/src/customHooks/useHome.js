@@ -7,6 +7,7 @@ export default function useHome(){
     async function queryAPI(){
         try{
         let data = await axios.get("/details",{ withCredentials: true }).then(res=>{return res.data})
+        // console.log(data) ;
         return data
         }catch(err){
             navigate('/login')

@@ -1,9 +1,10 @@
 import axios from 'axios'
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import { isError, useMutation } from 'react-query'
 import styles from './ModelEnroll.module.scss'
-
+import { MessageContext } from '../../../components/MessageStack/MessageStack'
 const ModelEnroll = ({setModal,refetchData,batch ,setBatch,...props}) => {
+    const {addError, addSuccess} = useContext(MessageContext)
     const {mutate } = useMutation((body)=>{
        return axios.post("/subscribe", body, {withCredentials: true})
     })
@@ -12,8 +13,8 @@ const ModelEnroll = ({setModal,refetchData,batch ,setBatch,...props}) => {
             batch
         }
         mutate(body,{
-            onError: ()=>console.log("error"),
-            onSuccess: ()=>{setModal(false);setBatch(batch);refetchData();}
+            onError: ()=>addError("Unable to to enroll"),
+            onSuccess: ()=>{setModal(false);setBatch(batch);addSuccess("Enrolled successfully");refetchData();}
         })
 
     }

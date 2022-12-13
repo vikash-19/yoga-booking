@@ -10,6 +10,9 @@ function Enrollment({setModal,setEnrollrollState,...props}) {
     else if(age > 65){
       setEnrollrollState("overAge") ;
     }
+    else if(props.prevPaymentDue){
+      setEnrollrollState("duePayment") ;
+    }
     else{
       setEnrollrollState("enroll") ;
     }

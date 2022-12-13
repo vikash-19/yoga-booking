@@ -1,11 +1,13 @@
-import React, {useState } from 'react'
+import React, {useState,useContext } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
+import { MessageContext } from '../../components/MessageStack/MessageStack'
 import {useLogin} from '../../customHooks/'
 import styles from './login.module.scss'
 
 
 
 const Login = () => {
+    const {addSuccess, addError}=useContext(MessageContext)
     const [username , setUsername] = useState("") ;
     const [password , setPassword] = useState("") ;
     const navigate = useNavigate()
@@ -17,8 +19,8 @@ const Login = () => {
         }
 
         login(body,{
-          onError: data=>console.log('error occured'),
-          onSuccess: ()=>navigate("/")
+          onError: data=>addError("Login Failed!"),
+          onSuccess: ()=>{addSuccess("Login successfull!");navigate('/')}
         })
     }
 

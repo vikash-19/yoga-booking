@@ -1,9 +1,11 @@
-import React, {useState , useRef} from 'react'
+import React, {useState , useRef, useContext} from 'react'
 import { useNavigate } from 'react-router-dom';
+import { MessageContext } from '../../components/MessageStack/MessageStack';
 import { useRegister } from '../../customHooks';
 import styles from  './register.module.scss'
 
 const Register = () => {
+  const {addSuccess, addError} = useContext(MessageContext)
   const navigate = useNavigate()
   const [username , setUsername] = useState("") ;
   const [password , setPassword] = useState("") ;
@@ -22,8 +24,8 @@ const Register = () => {
     }
 
     register(body,{
-      onError: (data)=>console.log("unsuccessful"),
-      onSuccess: (data)=> navigate('/')
+      onError: (data)=>addError("Unable to register"),
+      onSuccess: (data)=> {addSuccess("Registration successfull!");navigate('/')}
     })
   }
   return (

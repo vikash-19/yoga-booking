@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react'
+import React, { useContext, useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/header/header'
 import styles from './Home.module.scss'
@@ -8,8 +8,9 @@ import Modal from '../../components/Modal'
 import ModalWarnings from '../components/ModalWarnings/ModalWarnings'
 import ModelEnroll from '../components/ModelEnroll/ModelEnroll'
 import {useHome} from '../../customHooks'
-
+import { MessageContext } from '../../components/MessageStack/MessageStack'
 const Home = () => {
+    const {addSuccess,addError} = useContext(MessageContext)
     const navigate = useNavigate()  ;
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [enrollState , setEnrollrollState] = useState("enroll")
@@ -51,7 +52,7 @@ const Home = () => {
                 <Header username = {data.username}/>
                 <main className={styles.main}>
                     <div className={styles.show}>
-                        <LeftShow/>
+                        <LeftShow {...data}/>
                         <div></div>
                         <RightShow modal={isModalOpen} batch={batch} setBatch={setBatch} setEnrollrollState={setEnrollrollState}  setModal={setIsModalOpen} 
                         {...data} 
