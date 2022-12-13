@@ -1,7 +1,7 @@
 import React, {useState , useRef} from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useRegister } from '../../customHooks';
-import './register.css'
+import styles from  './register.module.scss'
 
 const Register = () => {
   const navigate = useNavigate()
@@ -27,66 +27,66 @@ const Register = () => {
     })
   }
   return (
-    <section className="login-form">
-      <form className="form" onSubmit={(e)=>{
+    <section className={styles["login-form"]}>
+      <form className={styles.form} onSubmit={(e)=>{
         e.preventDefault()
         e.stopPropagation()
         handleRegister()
       }}>
-        <div className="form-title">
+        <div className={styles["form-title"]}>
           <h1>Yoga Classes</h1>
         </div>
         <h3>Register</h3>
-        <div className="form-row">
+        <div className={styles["form-row"]}>
           <label htmlFor="username">Username</label>
           <input
             type="text"
-            className="form-input"
+            className={styles["form-input"]}
             onChange={(e)=>{setUsername(e.target.value)}}
             value = {username}
           />
         </div>
-        <div className="form-row">
+        <div className={styles["form-row"]}>
           <label htmlFor="firstName">First Name</label>
           <input
             type="text"
-            className="form-input"
+            className={styles["form-input"]}
             onChange={(e)=>{setFirstName(e.target.value)}}
             value = {firstName}
           />
         </div>
-        <div className="form-row">
+        <div className={styles["form-row"]}>
           <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
-            className="form-input"
+            className={styles["form-input"]}
             onChange = {(e)=> setLastName(e.target.value)}
             value = {lastName}
           />
         </div>
 
-        <div className="form-row">
+        <div className={styles["form-row"]}>
           <label htmlFor="dateOfBirth">Date of Birth</label>
           <input
             type="date"
-            className="form-input"
+            className={styles["form-input"]}
             onChange = {(e)=> setDob(e.target.value)}
             value = {dateOfBirth}
           />
         </div>
 
-        <div className="form-row">
+        <div className={styles["form-row"]}>
           <label htmlFor="password">password</label>
           <input
             type="password"
-            className="form-input"
+            className={styles["form-input"]}
             onChange = {(e)=> setPassword(e.target.value)}
             value = {password}
           />
         </div>
 
-        <div className="form-row">
-          <button className="btn form-btn register-btn" >
+        <div className={styles["form-row"]}>
+          <button className={styles.btn + " " + styles["form-btn"] + " " + styles["register-btn"]} >
             Submit
           </button>
         </div>

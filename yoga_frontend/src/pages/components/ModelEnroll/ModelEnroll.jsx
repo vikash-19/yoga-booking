@@ -3,19 +3,17 @@ import React, { useState } from 'react'
 import { isError, useMutation } from 'react-query'
 import styles from './ModelEnroll.module.scss'
 
-const ModelEnroll = ({setModal}) => {
-    const [batch ,setBatch] = useState("7AM-8AM")
+const ModelEnroll = ({setModal,refetchData,batch ,setBatch,...props}) => {
     const {mutate } = useMutation((body)=>{
        return axios.post("/subscribe", body, {withCredentials: true})
     })
-
     function handleSubmit(){
         const body = {
             batch
         }
         mutate(body,{
-            onError: console.log("error"),
-            onSuccess: setModal(false)
+            onError: ()=>console.log("error"),
+            onSuccess: ()=>{setModal(false);setBatch(batch);refetchData();}
         })
 
     }
@@ -35,10 +33,9 @@ const ModelEnroll = ({setModal}) => {
         <div className={styles.ModelEnrollChooseBatchBox}>
             <span className={styles.ModelEnrollChooseBatch}>Batch &nbsp;: </span>
             <select name="batch" id="batch" onChange= {e=>setBatch(e.target.value)} value = {batch}>
-                <option value="7AM-8AM">7AM-8AM</option>
-                <option value="8AM-9AM">8AM-9AM</option>
-                <option value="9AM-10AM">9AM-10AM</option>
-                <option value="5PM-6PM">5PM-6PM</option>
+            {['6AM-7AM' , '7AM-8AM' , '8AM-9AM', '5PM-6PM'].map((time,ind)=>
+                    <option value={time} key={ind}>{time}</option>)
+                    }
             </select>
         </div>
         

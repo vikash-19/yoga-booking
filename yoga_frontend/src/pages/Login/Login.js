@@ -1,7 +1,7 @@
 import React, {useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
 import {useLogin} from '../../customHooks/'
-import './login.css'
+import styles from './login.module.scss'
 
 
 
@@ -23,34 +23,34 @@ const Login = () => {
     }
 
   return (
-    <section className="login-form">
-      <form className="form" onSubmit={(e)=>{
+    <section className={styles["login-form"]}>
+      <form className={styles["form"]} onSubmit={(e)=>{
         e.preventDefault();
         e.stopPropagation();
         handleSubmit() ; 
       }}>
-        <div className="form-title">
+        <div className={styles["form-title"]}>
           <h1>Yoga Classes</h1>
         </div>
         <h3>Login</h3>
-        <div className="form-row">
+        <div className={styles["form-row"]}>
           <label htmlFor="username">Username</label>
-          <input type="text" className="form-input" 
+          <input type="text" className={styles["form-input"]}
             onChange={(e)=> setUsername(e.target.value)}
             value  = {username} 
           />
         </div>
-        <div className="form-row">
+        <div className={styles["form-row"]}>
           <label htmlFor="password">Password</label>
-          <input type="password" className="form-input"
+          <input type="password" className={styles["form-input"]}
             onChange = {(e)=> setPassword(e.target.value)}
             value  = {password} 
           />
         </div>
-        <button className="btn form-btn" disabled={isLoading}>Submit</button>
-        <p className="form-para">
+        <button className={styles.btn+ " "+ styles['form-btn']} disabled={isLoading}>Submit</button>
+        <p className={styles["form-para"]}>
           Not a member yet?
-          <Link className="register-link" to = '/register'>Register</Link>
+          <Link className={styles["register-link"]} to = '/register'>Register</Link>
         </p>
          {/* {data.error && <FormError message={data.error}/>} */}
          {/* {loggedIn  && <FormSuccess message='Login successful!'/>} */}

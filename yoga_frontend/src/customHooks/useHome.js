@@ -13,10 +13,10 @@ export default function useHome(){
         }
     }
     
-    const { data, status , isLoading,isSuccess} = useQuery("details",queryAPI,{retry : 0});
-    
+    const { data, status ,refetch:refetchData, isLoading,isSuccess} = useQuery("details",queryAPI,{retry : 0});
     return {
         data,
+        refetchData,
         status,
         isLoading,
         isSuccess

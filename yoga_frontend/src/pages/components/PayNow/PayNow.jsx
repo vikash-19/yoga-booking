@@ -15,7 +15,7 @@ const PayNow = (props) => {
 
         mutate(body, {
             onError: console.log("payment failed"),
-            onSuccess: ()=>{props.setModal(false)} 
+            onSuccess: ()=>{props.setModal(false); props.setPayment(true); props.refetchData()} 
         })
     }
   return (

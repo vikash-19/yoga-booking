@@ -13,8 +13,16 @@ const Home = () => {
     const navigate = useNavigate()  ;
     const [isModalOpen, setIsModalOpen] = useState(false)
     const [enrollState , setEnrollrollState] = useState("enroll")
-    const {data,status,  isLoading , isSuccess} = useHome()
-    
+    const {data,status,  isLoading ,refetchData, isSuccess} = useHome()
+    const [batch , setBatch] = useState(null)
+    const [payment, setPayment] = useState(null)
+    useEffect(()=>{
+        if(!isLoading){
+            setBatch(data.currSubscription?.batch)
+            setPayment(data.payment)
+        }
+    },[isLoading,status])
+
     function renderModal(){
         if(!enrollState)
             return null
@@ -32,7 +40,7 @@ const Home = () => {
             )
         } else if(enrollState === "enroll"){
             return(
-                <ModelEnroll setModal={setIsModalOpen}/>
+                <ModelEnroll  setModal={setIsModalOpen} refetchData={refetchData} batch={batch} setBatch={setBatch} {...data}/>
             )
         } else return null
     }
@@ -45,7 +53,12 @@ const Home = () => {
                     <div className={styles.show}>
                         <LeftShow/>
                         <div></div>
-                        <RightShow modal={isModalOpen} setEnrollrollState={setEnrollrollState} setModal={setIsModalOpen} {...data} />
+                        <RightShow modal={isModalOpen} batch={batch} setBatch={setBatch} setEnrollrollState={setEnrollrollState}  setModal={setIsModalOpen} 
+                        {...data} 
+                        payment={payment}
+                        setPayment= {setPayment}
+                        refetchData={refetchData}
+                        />
                     </div>
                 </main>
             </div>

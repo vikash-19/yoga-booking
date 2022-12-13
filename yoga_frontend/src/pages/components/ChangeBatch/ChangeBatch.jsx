@@ -1,12 +1,13 @@
 import axios from 'axios'
-import React, {useState} from 'react'
+import React, {useRef, useState} from 'react'
 import { useMutation } from 'react-query'
 import styles from './ChangeBatch.module.scss'
 
 
 const ChangeBatch = (props) => {
     const [checked ,setChecked] = useState(false)
-    const [batch , setBatch] = useState(props.subscription.batch)
+    const {batch, setBatch} = props
+    const prevBatch = useRef(props.batch)
     const {mutate} = useMutation((body)=>{
         return axios.put(`/changeBatch/${props.subscription._id}`, body, {withCredentials:true})
     })
@@ -18,8 +19,8 @@ const ChangeBatch = (props) => {
         }
 
         mutate(body, {
-            onError: ()=>console.log("sdfgunable to change the batch"),
-            onSuccess: ()=>{props.setModal(false)} 
+            onError: ()=>{props.setBatch(prevBatch.current); console.log('error')},
+            onSuccess: ()=>{props.setModal(false); prevBatch.current=batch; props.refetchData()} 
         })
     }
   return (
@@ -40,10 +41,9 @@ const ChangeBatch = (props) => {
                 onChange={(e)=>setBatch(e.target.value)}
                 value = {batch}
             >
-                <option value="7AM-8AM">7AM-8AM</option>
-                <option value="8AM-9AM">8AM-9AM</option>
-                <option value="9AM-10AM">9AM-10AM</option>
-                <option value="5PM-6PM">5PM-6PM</option>
+                {['6AM-7AM' , '7AM-8AM' , '8AM-9AM', '5PM-6PM'].map((time,ind)=>
+                    <option value={time} key={ind}>{time}</option>)
+                    }
             </select>
         </div>
         

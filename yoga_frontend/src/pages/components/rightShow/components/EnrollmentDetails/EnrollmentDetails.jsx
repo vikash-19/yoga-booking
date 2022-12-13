@@ -11,14 +11,9 @@ const options = {
 function EnrollmentDetails(props) {
   const [modalType, setModalType] = useState(false)
   function getMonth(){
-    // return "fgojf";
     return new Date().toLocaleString('default' , {month:'long'}) ;
   }
 
-
-  function isPaymentDue(){
-    return true ;
-  }
 
   function renderModal(){
     if(!modalType)
@@ -42,7 +37,7 @@ function EnrollmentDetails(props) {
       Month : {getMonth()}
       </div>
       <div className={styles.Row}>
-      Batch : {props.subscription.batch}
+      Batch : {props.batch}
       </div>
 
       <div className={styles.ButtonsWrapper}>
