@@ -18,7 +18,6 @@ export const h2Style = {
     marginTop: '5px',
     marginLeft: '5px',
     fontFamily: 'arial',
-    fontSize: 'large',
 }
 export const closeModal ={
     fontSize: "1.4rem",

@@ -4,7 +4,8 @@ const {authMiddleware}  = require('../middlewares')
 
 route.use(authMiddleware) ;
 
-route.get("/", detailsController.getDetails)
 route.post("/subscribe"  , detailsController.subscribe )
 route.post("/pay"  , detailsController.makePayment )
+route.get("/details", detailsController.getDetails)
+route.put('/changeBatch/:_id' , detailsController.changeBatch)
 module.exports = route ;

@@ -4,7 +4,7 @@ const {registerRoute, loginRoute , detailsRoute} = require('./routes') ;
 const bodyParser = require('body-parser') ;
 const session = require('cookie-session') ;
 const cookieParser = require('cookie-parser');
-const cors = require('cors')
+
 
 app.use(session({
     secret: process.env.SECRET_KEY ,
@@ -14,9 +14,9 @@ app.use(session({
   }))
 
 app.use(bodyParser.json()) ;
+
 app.use('/register' , registerRoute ) ;
 app.use('/login', loginRoute) ;
-
 app.get('/logout' , (req , res)=>{
     try{
         req.session = null ;
@@ -27,6 +27,10 @@ app.get('/logout' , (req , res)=>{
     }
     
 })
-app.use(cors(['http://localhost:3000']))
+
+
 app.use('/', detailsRoute) ;
+
+
+
 module.exports =  app  ;

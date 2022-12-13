@@ -1,22 +1,39 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styles from './EnrollmentDetails.module.scss'
+import Modal from '../../../../../components/Modal';
+import PayNow from '../../../PayNow/PayNow';
+import ChangeBatch from '../../../ChangeBatch/ChangeBatch';
 
-function EnrollmentDetails() {
-
+const options = {
+  payNow: 'Pay Now',
+  changeBatch: 'Change Batch'
+}
+function EnrollmentDetails(props) {
+  const [modalType, setModalType] = useState(false)
   function getMonth(){
     // return "fgojf";
     return new Date().toLocaleString('default' , {month:'long'}) ;
   }
 
-  function getBatch(){
-    return "7AM-8AM" ;
-  }
 
   function isPaymentDue(){
     return true ;
   }
 
+  function renderModal(){
+    if(!modalType)
+      return null
+    
+    if(modalType===options.payNow){
+      return <PayNow {...props} setModal={setModalType}/>
+    }
+    
+    if(modalType === options.changeBatch){
+      return <ChangeBatch {...props} setModal={setModalType}/>
+    }
+  }
   return (
+    <React.Fragment>
     <div className={styles.EnrollmentDetails}>
       <div className={styles.Text}>
       Welcome!
@@ -25,23 +42,29 @@ function EnrollmentDetails() {
       Month : {getMonth()}
       </div>
       <div className={styles.Row}>
-      Batch : {getBatch()}
+      Batch : {props.subscription.batch}
       </div>
 
       <div className={styles.ButtonsWrapper}>
-        {isPaymentDue()&&
-          <button className = {`${styles.PayNow} ${styles.button}`}>
+        {!props.payment&&
+          <button className = {`${styles.PayNow} ${styles.button}`} onClick={()=>setModalType(options.payNow)}>
             Pay Now
           </button>
         }
 
-        <button className={`${styles.ChangeBatch} ${styles.button}`}>
+        <button className={`${styles.ChangeBatch} ${styles.button}`}
+         onClick={()=>setModalType(options.changeBatch)}
+         >
           Change batch
         </button>
 
       </div>
 
     </div>
+    <Modal modal={modalType} setModal = {setModalType} title={modalType}>
+      {renderModal()}
+     </Modal>
+    </React.Fragment>
   )
 }
 

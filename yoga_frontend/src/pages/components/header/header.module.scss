@@ -9,8 +9,12 @@
             &:first-of-type{
                 margin-left: auto;
             }
-            &:hover{
-                
+            &.logout{
+                text-decoration: underline;
+                cursor: pointer;
+            }
+            &.logout:hover{
+                color:red;
             }
         }
     }

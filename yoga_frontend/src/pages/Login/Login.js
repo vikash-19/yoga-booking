@@ -1,6 +1,6 @@
 import React, {useState } from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-import useLogin from '../../customHooks/useLogin'
+import {useLogin} from '../../customHooks/'
 import './login.css'
 
 
@@ -18,7 +18,7 @@ const Login = () => {
 
         login(body,{
           onError: data=>console.log('error occured'),
-          // onSuccess: ()=>navigate("/")
+          onSuccess: ()=>navigate("/")
         })
     }
 
@@ -27,7 +27,7 @@ const Login = () => {
       <form className="form" onSubmit={(e)=>{
         e.preventDefault();
         e.stopPropagation();
-        alert("sdf")
+        handleSubmit() ; 
       }}>
         <div className="form-title">
           <h1>Yoga Classes</h1>
@@ -47,7 +47,7 @@ const Login = () => {
             value  = {password} 
           />
         </div>
-        <button className="btn form-btn" onClick={handleSubmit} disabled={isLoading}>Submit</button>
+        <button className="btn form-btn" disabled={isLoading}>Submit</button>
         <p className="form-para">
           Not a member yet?
           <Link className="register-link" to = '/register'>Register</Link>

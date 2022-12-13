@@ -4,7 +4,7 @@ import styles, {closeModal, h2Style, Header} from './Modal.styles'
 function ModalCustom({children, modal ,setModal, title,style}) {
   return (
     <Modal
-        isOpen={modal}
+        isOpen={Boolean(modal)}
         // onRequestClose={()=>setModal(false)}
         style={{content:{...styles,...style}}}
     >

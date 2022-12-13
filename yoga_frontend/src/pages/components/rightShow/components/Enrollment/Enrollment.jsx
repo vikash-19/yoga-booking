@@ -1,13 +1,25 @@
 import React from 'react'
 import styles from './Enrollment.module.scss'
-function Enrollment({setModal}) {
-  function enroll(){
+function Enrollment({setModal,setEnrollrollState,...props}) {
+  function handleEnrollNow(){
+    const oneYear = 365*24*60*60*1000 ;
+    const age  =  (new Date() - new Date(props.dateOfBirth))/oneYear ;
+    if(age < 18){
+      setEnrollrollState("underAge") ;
+    }
+    else if(age > 65){
+      setEnrollrollState("overAge") ;
+    }
+    else{
+      setEnrollrollState("enroll") ;
+    }
 
+    setModal(true) ;
   }
   return (
     <div className={styles.Enrollment}>
         <span className={styles.text}>You haven't Enrolled into the class! </span>
-        <button onClick={()=>{setModal(prev=>!prev)}} className={styles.button}>
+        <button onClick={handleEnrollNow} className={styles.button}>
             Enroll Now
         </button>
     </div>

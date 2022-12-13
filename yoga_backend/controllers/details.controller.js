@@ -3,7 +3,6 @@ const moment  = require('moment') ;
 
 
 const getDetails = async (req , res)=>{
-
     try{
         const username =  req.session.username ;
         const user = await Users.findOne({username}) ;
@@ -27,7 +26,8 @@ const getDetails = async (req , res)=>{
             lastName : user.lastName,
             dateOfBirth : user.dateOfBirth,
             currSubscription,
-            payment
+            payment,
+            username
         }
         res.json(details) ;
 
@@ -138,4 +138,19 @@ const makePayment = async (req  , res) => {
     }
 }
 
-module.exports  =  {getDetails , subscribe , makePayment}
+const changeBatch = async (req, res)=>{
+    try{
+        const username = req.session
+        const {batch } = req.body
+        const {_id} = req.params
+        await Subscriptions.updateOne({_id},{batch})
+
+        res.send("changed")
+    } catch (err){
+        console.log('failed changing batch')
+        res.status(501).send("failed changing batch")
+    }
+
+}
+
+module.exports  =  {getDetails , subscribe , makePayment , changeBatch}

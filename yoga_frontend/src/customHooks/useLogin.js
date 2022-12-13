@@ -1,12 +1,10 @@
 import  {useMutation} from 'react-query'
 import axios from 'axios'
 export default function useLogin(){
-    const headers = {
-        'Content-Type': 'application/json',
-      }
-    function queryAPI(body){
-        console.log(body)
-        return fetch("/login",{body,method: 'post', headers}).then(res=>res.text())
+    async function queryAPI(body){
+
+        let data = await axios.post("/login",body,{ withCredentials: true })
+        return data
     }
     
     const {mutate:login , isError, isLoading,isSuccess} = useMutation(queryAPI);

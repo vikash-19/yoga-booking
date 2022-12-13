@@ -1,61 +1,59 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useLayoutEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Header from '../components/header/header'
 import styles from './Home.module.scss'
 import LeftShow from '../components/leftShow/leftShow'
 import RightShow from '../components/rightShow/rightShow'
 import Modal from '../../components/Modal'
-const isLoggedIn = ()=>{
-    return false ;
-}
+import ModalWarnings from '../components/ModalWarnings/ModalWarnings'
+import ModelEnroll from '../components/ModelEnroll/ModelEnroll'
+import {useHome} from '../../customHooks'
 
 const Home = () => {
     const navigate = useNavigate()  ;
     const [isModalOpen, setIsModalOpen] = useState(false)
-    const [enrollState , setEnrollrollState] = useState("overAge")
-    useEffect(()=>{
-        if(!isLoggedIn()){
-            navigate("/login") ;
-        }
-    })
-
+    const [enrollState , setEnrollrollState] = useState("enroll")
+    const {data,status,  isLoading , isSuccess} = useHome()
+    
     function renderModal(){
         if(!enrollState)
             return null
         if(enrollState==="overAge"){
             return (
-                <div>You are over Age</div>
+                <ModalWarnings messageTitle={"Not eligible to Enroll!\n"} messageDesc={" Your age is exceeding 65."}/>
             )
         } else if(enrollState==="underAge"){
             return (
-            <div>
-                You are underAge
-            </div>
+                <ModalWarnings messageTitle={"Not eligible to Enroll!\n"} messageDesc={"Your age is Below 15."} />
             )
         } else if(enrollState === "duePayment"){
             return (
-                <div>Payment Due</div>
+                <ModalWarnings messageTitle={"Not eligible to Enroll!\n"} messageDesc={"Your last payment is due."}/>
             )
         } else if(enrollState === "enroll"){
-            return <div>Ready to enroll</div>
+            return(
+                <ModelEnroll setModal={setIsModalOpen}/>
+            )
         } else return null
     }
     return (
         <React.Fragment>
-        <div className = {styles.home}>
-            <Header />
-            <main className={styles.main}>
-                <div className={styles.show}>
-                    <LeftShow/>
-                    <div></div>
-                    <RightShow modal={isModalOpen} setModal={setIsModalOpen}/>
-                </div>
-            </main>
-        </div>
+        {!isLoading &&
+            <div className = {styles.home}>
+                <Header username = {data.username}/>
+                <main className={styles.main}>
+                    <div className={styles.show}>
+                        <LeftShow/>
+                        <div></div>
+                        <RightShow modal={isModalOpen} setEnrollrollState={setEnrollrollState} setModal={setIsModalOpen} {...data} />
+                    </div>
+                </main>
+            </div>
+        }
         <Modal modal={
             isModalOpen} 
             setModal={setIsModalOpen}
-            title={'vikas'}
+            title={((enrollState==="enroll")?"Enroll":"Warning")}
             >
         {
             renderModal()
